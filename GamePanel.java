@@ -1,4 +1,5 @@
-package com.hgl;
+package hgl;
+
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -20,12 +23,24 @@ public class GamePanel extends JFrame {
 	int y=150;
 	int state=0;
 	int a=1;
+	//游戏子弹列表
+	ArrayList<Bullet> bulletList=new ArrayList<Bullet>();
+	//添加多架敌方坦克
+	ArrayList<Bot> botList=new ArrayList<Bot>();
+	//重绘的次数
+	int count =0;
+	//已生成敌人的数量
+	int enemycount=0;
 	//定义双缓存图片
 	Image offScreemImage=null;
+	//定义敌方坦克
+	Bot bot = new Bot("images/BadTank1.png",500,110,this,
+			"images/TankU.gif","images/TankD.gif",
+			"images/TankL.gif","images/TankR.gif");
 	//定义变量玩家1 PlayerOne
-	PlayerOne playerone = new PlayerOne("images/TankU.gif",200,510,this,
-			"images/TankU.gif","images/TankL.gif",
-			"images/TankD.gif","images/TankR.gif");
+	PlayerOne playerone = new PlayerOne("images/GoodTank1.png",200,510,this,
+			"images/TankU.gif","images/TankD.gif",
+			"images/TankL.gif","images/TankR.gif");
 	
 	public void launch() {
 		setTitle("坦克大战");
@@ -36,7 +51,25 @@ public class GamePanel extends JFrame {
 		setVisible(true);
 		this.addKeyListener(new GamePanel.KeyMonitor());
 		//重绘指针
-		new PaintThread().start();
+		while(true) {
+			//添加敌方坦克
+			if(count % 100 == 1  && enemycount<10) {
+				//使敌方坦克随机生成
+				Random random=new Random();
+				int rnum=random.nextInt(800);
+			botList.add(new Bot("images/BadTank1.png",rnum,110,this,
+					"images/TankU.gif","images/TankD.gif",
+					"images/TankL.gif","images/TankR.gif"));
+			enemycount ++;
+			}
+			repaint();
+			try {
+				Thread.sleep(25);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 		
 	@Override
@@ -62,36 +95,31 @@ public class GamePanel extends JFrame {
 	}
 	else if (state==1||state==2||state==3) {
 		gOff.drawString("游戏开始", 100, 100);
-		if (state==1){
+		if (state==1) {
 			gOff.drawString("单人模式", 100, 150);
 		}else if (state==2){
 			gOff.drawString("双人模式", 100, 200);
 		}else{
 			gOff.drawString("多人模式", 100, 250);
 		}
+	
 		//添加游戏元素
 		playerone.paintSelf(gOff);
+		
+		//绘制子弹
+		for(Bullet bullet: bulletList) {
+			bullet.paintSelf(gOff);
+		}
+		//绘制敌方坦克
+		for(Bot bot: botList) {
+		bot.paintSelf(gOff);
+		}
 	}
 		//将缓冲区绘制好的图形整个绘制到容器的画布中
 		g.drawImage(offScreemImage, 0, 0, null);
+		count++;
 	}
-	//反复重画窗口
-	class PaintThread extends Thread{
-		
-		@Override
-		public void run() {
-			while(true) {
-				repaint();
-				
-				try {
-					Thread.sleep(25);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-	}
+	
 	
 	class KeyMonitor extends KeyAdapter {
 		//按下键盘

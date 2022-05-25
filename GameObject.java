@@ -1,4 +1,4 @@
-package com.hgl;
+package hgl;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,7 +7,7 @@ public abstract class GameObject {
 	public Image img;
 	public int x;
 	public int y;
-	private GamePanel gamepanel;
+	public GamePanel gamepanel;
 
    public GameObject(String img,int x,int y,GamePanel gamepanel) {
 	this.img = GameUtil.getImage(img);

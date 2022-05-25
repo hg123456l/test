@@ -1,4 +1,4 @@
-package com.hgl;
+package hgl;
 
 public enum Direction {
 	UP,LEFT,RIGHT,DOWN

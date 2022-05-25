@@ -1,4 +1,4 @@
-package com.hgl;
+package hgl;
 
 import java.awt.Image;
 import java.awt.geom.Path2D;

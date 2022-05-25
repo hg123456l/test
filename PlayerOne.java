@@ -1,4 +1,4 @@
-package com.hgl;
+package hgl;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -49,6 +49,8 @@ public  class PlayerOne extends Tank{
 			case KeyEvent.VK_W:
 				up=false;
 				break;
+			case KeyEvent.VK_SPACE:
+				attack();
 				default:
 					break;
 			}
