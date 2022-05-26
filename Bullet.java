@@ -2,6 +2,7 @@ package hgl;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class Bullet extends GameObject {
 		int width=10;
@@ -43,7 +44,32 @@ public class Bullet extends GameObject {
 			downward();
 			break;
 			
-		}	
+		}
+		this.hitWallt();
+	}
+	
+	public void hitBot() {
+		ArrayList<Bot> bots=this.gamepanel.botList;
+		for(Bot bot:bots) {
+			if(this.gerRec().intersects(bot.gerRec())) {
+				this.gamepanel.botList.remove(bot);
+				this.gamepanel.removeList.add(this);
+				break;
+			}
+			
+		}
+	}
+	
+	public void hitWallt() {
+		ArrayList<Wall> walls=this.gamepanel.wallList;
+		for(Wall wall:walls) {
+			if(this.gerRec().intersects(wall.gerRec())) {
+				this.gamepanel.wallList.remove(wall);
+				this.gamepanel.removeList.add(this);
+				break;
+			}
+			
+		}
 	}
 	
 	public void setImg(String img) {
@@ -56,6 +82,7 @@ public class Bullet extends GameObject {
 		// TODO Auto-generated method stub
 		g.drawImage(img, x, y, null);
 		this.go();
+		this.hitBot();
 	}
 
 	@Override

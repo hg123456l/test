@@ -63,27 +63,9 @@ public abstract class Tank extends GameObject{
 				  Point p=this.getHeadPoint();
 				  Bullet bullet=new Bullet("images/bulletU.gif",p.x,p.y,this.gamepanel,direction);
 				  this.gamepanel.bulletList.add(bullet);
-				  new AttackCD().start();
 				}
 			}
-			//新建线程
-			 class AttackCD extends Thread{
-				 @Override
-				 public void run() {
-					//将攻击功能设置成冷却状态
-					attackCoolDown=false;
-					//休眠一秒
-					try {
-						Thread.sleep(attactCoolDownTime);
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-					//将攻击功能解除冷却状态
-					attackCoolDown=true;
-					//终止线程
-					this.stop();
-				}
-			}
+			
 			
 			public Point getHeadPoint() {
 				switch(direction){
