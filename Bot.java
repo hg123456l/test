@@ -60,7 +60,7 @@ public class Bot extends Tank{
 		 Random random=new Random();
 		 int rnum=random.nextInt(400);
 		 if(rnum<4) {
-			 this.gamepanel.bulletList.add(new EnemyBullet("images/bulletR.gif",p.x,p.y,this.gamepanel,direction));
+			 this.gamepanel.bulletList.add(new EnemyBullet("images/bulletYellow.gif",p.x,p.y,this.gamepanel,direction));
 		 }
 	}
 	@Override
